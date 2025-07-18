@@ -1,0 +1,8 @@
+{
+  "catalogs": {},
+  "aliases": {
+    "letnecesty2025": {
+      "script-ref": "letnecesty2025.java"
+    }
+  }
+}
