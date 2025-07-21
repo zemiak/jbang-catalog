@@ -1,3 +1,4 @@
+package letnecesty2025;
 ///usr/bin/env jbang "$0" "$@" ; exit $?
 
 //JAVA 21
