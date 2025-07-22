@@ -1,3 +1,4 @@
+package letnecesty2025.letnecesty2025;
 ///usr/bin/env jbang "$0" "$@" ; exit $?
 
 //JAVA 21
@@ -18,7 +19,7 @@ import java.util.List;
 
 class main {
     public static void main(String[] args) {
-        var reader = new letnecesty2025.Reader();
+        var reader = new letnecesty2025.letnecesty2025.Reader();
         String cacherName = null;
 
         if (args.length > 0) {
@@ -37,7 +38,7 @@ class main {
 
         Path uncompressedFinds = letnecesty2025.Uncompress.getUncompressedFinds();
 
-        List<letnecesty2025.Geocache> geocaches = Collections.emptyList();
+        List<letnecesty2025.letnecesty2025.Geocache> geocaches = Collections.emptyList();
         try {
             geocaches = reader.read(cacherName, uncompressedFinds.toString());
         } catch (Exception e) {
