@@ -22,6 +22,8 @@ class main {
         var reader = new letnecesty2025.Reader();
         String cacherName = null;
 
+        System.out.println("Checker Letne Cesty 2025 0.0.1");
+
         if (args.length > 0) {
             cacherName = args[0];
         } else {
