@@ -36,7 +36,7 @@ class main {
             System.exit(10);
         }
 
-        Path uncompressedFinds = Uncompress.getUncompressedFinds();
+        Path uncompressedFinds = letnecesty2025.Uncompress.getUncompressedFinds();
 
         List<letnecesty2025.Geocache> geocaches = Collections.emptyList();
         try {
@@ -46,6 +46,6 @@ class main {
             System.exit(20);
         }
 
-        Checker.run(geocaches, cacherName);
+        letnecesty2025.Checker.run(geocaches, cacherName);
     }
 }
