@@ -1,4 +1,5 @@
-package letnecesty2025.letnecesty2025;
+package letnecesty2025;
+
 import java.util.HashMap;
 import java.util.Map;
 

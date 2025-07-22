@@ -1,4 +1,5 @@
-package letnecesty2025.letnecesty2025;
+package letnecesty2025;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
