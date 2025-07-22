@@ -2,16 +2,16 @@ package letnecesty2025;
 ///usr/bin/env jbang "$0" "$@" ; exit $?
 
 //JAVA 21
-//SOURCES letnecesty2025/Attribute.java
-//SOURCES letnecesty2025/Geocache.java
-//SOURCES letnecesty2025/LogHandler.java
-//SOURCES letnecesty2025/Reader.java
-//SOURCES letnecesty2025/Sizes.java
-//SOURCES letnecesty2025/Types.java
-//SOURCES letnecesty2025/Checker.java
-//SOURCES letnecesty2025/MestskaCesta.java
-//SOURCES letnecesty2025/LesnaCesta.java
-//SOURCES letnecesty2025/HadankovaCesta.java
+//SOURCES Attribute.java
+//SOURCES Geocache.java
+//SOURCES LogHandler.java
+//SOURCES Reader.java
+//SOURCES Sizes.java
+//SOURCES Types.java
+//SOURCES Checker.java
+//SOURCES MestskaCesta.java
+//SOURCES LesnaCesta.java
+//SOURCES HadankovaCesta.java
 
 import java.nio.file.Path;
 import java.util.Collections;
