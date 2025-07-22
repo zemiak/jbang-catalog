@@ -31,6 +31,7 @@ public class Uncompress {
 
         if (zipFiles.size() > 1) {
             System.err.println("More than one zip file found in the current directory.");
+            zipFiles.forEach(System.out::println);
             System.exit(52);
         }
 
