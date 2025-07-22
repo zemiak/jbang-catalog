@@ -12,7 +12,7 @@ public class Uncompress {
         var zipFiles = new ArrayList<Path>();
         try {
             Path currentPath = Paths.get(".");
-            try (Stream<Path> paths = Files.walk(currentPath, 1)) {
+            try (Stream<Path> paths = Files.walk(currentPath, 0)) {
                 paths.filter(path -> path.toString().endsWith(".zip"))
                     .filter(path -> path.getFileName().toString().matches("\\d+\\.zip"))
                     .forEach(path -> {
