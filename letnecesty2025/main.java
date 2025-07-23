@@ -20,7 +20,7 @@ import java.util.List;
 class main {
     public static void main(String[] args) {
         var reader = new letnecesty2025.Reader();
-        System.out.println("Checker Letne Cesty 2025 0.0.3");
+        System.out.println("Checker Letne Cesty 2025 0.0.4");
 
         Path uncompressedFinds = letnecesty2025.Uncompress.getUncompressedFinds();
 
@@ -28,11 +28,13 @@ class main {
         try {
             geocaches = reader.read(uncompressedFinds.toString());
         } catch (Exception e) {
-            System.err.println("Cyba: nepodarilo sa nacitat My Finds GPX: " + e.getMessage());
+            System.err.println("Chyba: nepodarilo sa nacitat My Finds GPX: " + e.getMessage());
             System.exit(20);
         }
 
         String cacherName = reader.getCacherName();
+        System.out.println("Nick: " + cacherName);
+
         letnecesty2025.Checker.run(geocaches, cacherName);
     }
 }

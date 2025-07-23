@@ -20,17 +20,17 @@ public class Uncompress {
                     });
             }
         } catch (IOException e) {
-            System.err.println("Error reading files: " + e.getMessage());
+            System.err.println("Chyba pri citani suborov: " + e.getMessage());
             System.exit(50);
         }
 
         if (zipFiles.isEmpty()) {
-            System.err.println("No zip files found in the current directory.");
+            System.err.println("Nenasiel som ziadny subor s My Finds Pocket Query.");
             System.exit(51);
         }
 
         if (zipFiles.size() > 1) {
-            System.err.println("More than one zip file found in the current directory: " + zipFiles.size());
+            System.err.println("Nasiel som viac suborov ktore by mohli obsahovat My Finds: " + zipFiles.size());
             zipFiles.forEach(System.out::println);
             System.exit(52);
         }
@@ -46,7 +46,7 @@ public class Uncompress {
                 while (entry != null) {
                     newFile = tempDir.resolve(entry.getName());
                     if (! newFile.toString().endsWith(".gpx")) {
-                        System.err.println("The file is not a My Finds gpx file: " + newFile);
+                        System.err.println("Subor neobsahuje Pocket Query GPX: " + newFile);
                         System.exit(53);
                     }
 
@@ -59,14 +59,14 @@ public class Uncompress {
                     entry = zis.getNextEntry();
 
                     if (null != entry) {
-                        System.err.println("There is more than one file: " + entry);
+                        System.err.println("V archive je viac ako jeden subor: " + entry);
                         System.exit(55);
                     }
                 }
                 zis.closeEntry();
             }
         } catch (IOException e) {
-            System.err.println("Error uncompressing file: " + e.getMessage());
+            System.err.println("Chyba pri dekomprimovani suboru: " + e.getMessage());
             System.exit(56);
         }
 
