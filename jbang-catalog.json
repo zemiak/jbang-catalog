@@ -3,10 +3,6 @@
   "aliases": {
     "letnecesty2025": {
       "script-ref": "letnecesty2025/main.java"
-    },
-
-    "lc25": {
-      "script-ref": "lc25/main.java"
     }
   }
 }

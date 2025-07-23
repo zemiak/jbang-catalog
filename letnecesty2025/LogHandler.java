@@ -11,8 +11,9 @@ import org.w3c.dom.NodeList;
 public class LogHandler {
     public LocalDateTime date;
     public String text;
+    public String cacherName = null;
 
-    public LogHandler(Element cache, Boolean isProjectGC, String cacher) {
+    public LogHandler(Element cache, Boolean isProjectGC) {
         NodeList logs = cache.getElementsByTagName("groundspeak:logs").item(0).getChildNodes();
         String finder;
         Element log;
@@ -26,14 +27,18 @@ public class LogHandler {
                 finder = log.getElementsByTagName("groundspeak:finder").item(0).getTextContent().toLowerCase();
                 logType = log.getElementsByTagName("groundspeak:type").item(0).getTextContent().toLowerCase();
 
-                if (finder.equalsIgnoreCase(cacher) && foundIt(logType)) {
+                if (null == cacherName) {
+                    cacherName = finder;
+                }
+
+                if (foundIt(logType)) {
                     this.extractData(log, isProjectGC);
                     return;
                 }
             }
         }
 
-        throw new IllegalStateException("Cannot find my log in cache " + cache.getElementsByTagName("groundspeak:name").item(0).getTextContent() + " for cacher " + cacher);
+        throw new IllegalStateException("Cannot find any log in cache " + cache.getElementsByTagName("groundspeak:name").item(0).getTextContent());
     }
 
     private void extractData(Element log, Boolean isProjectGC) {

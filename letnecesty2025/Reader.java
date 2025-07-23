@@ -23,16 +23,15 @@ import org.xml.sax.SAXException;
 public class Reader {
     boolean loadError = false;
     boolean isProjectGC;
-    String cacher;
+    String cacherName;
     String gpxDateTime;
     List<Geocache> geocaches = new ArrayList<>();
 
     final static LocalDate START_DATE = LocalDate.of(2025, 7, 1);
     final static LocalDate END_DATE = LocalDate.of(2025, 8, 31);
 
-    public List<Geocache> read(String cacherName, String fileName) throws ParserConfigurationException, SAXException, IOException {
+    public List<Geocache> read(String fileName) throws ParserConfigurationException, SAXException, IOException {
         InputStream inputStream = null;
-        this.cacher = cacherName;
         this.geocaches.clear();
 
         if (Path.of(fileName).toFile().isFile()) {
@@ -120,6 +119,10 @@ public class Reader {
         return "Project-GC".equalsIgnoreCase(nameNode.getTextContent());
     }
 
+    public String getCacherName() {
+        return cacherName;
+    }
+
     private void readOneCache(Element rootElement) {
         Element cacheElement = (Element) rootElement.getElementsByTagName("groundspeak:cache").item(0);
 
@@ -129,7 +132,8 @@ public class Reader {
         cache.lat = rootElement.getAttribute("lat");
         cache.lon = rootElement.getAttribute("lon");
 
-        var log = new LogHandler(cacheElement, isProjectGC, cacher);
+        var log = new LogHandler(cacheElement, isProjectGC);
+        this.cacherName = log.cacherName;
         cache.logDateTime = log.date;
 
         LocalDate logDate = log.date.toLocalDate();
