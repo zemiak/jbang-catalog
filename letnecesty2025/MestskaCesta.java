@@ -1,6 +1,10 @@
 package letnecesty2025;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.List;
+import java.io.IOException;
 
 /**
 🚌 nájdi 5 kešiek s atribútom Public Transportation Nearby
@@ -10,7 +14,7 @@ import java.util.List;
 */
 
 public class MestskaCesta {
-    public static void run(List<Geocache> geocaches) {
+    public static void run(List<Geocache> geocaches, Path outputFile) throws IOException {
         long publicTransportationNearby = geocaches.stream()
             .filter(g -> g.hasAttribute(Attribute.publictransportation))
             .count();
@@ -27,33 +31,45 @@ public class MestskaCesta {
             .filter(g -> g.hasAttribute(Attribute.food))
             .count();
 
-        Boolean fullfilled = publicTransportationNearby >= 5
-            && strollerAccessible >= 3
-            && bicycles >= 5
-            && foodNearby >= 2;
+        Boolean fullfilled = true;
+        String html = "";
 
         if (publicTransportationNearby < 5) {
-            System.out.println("🚌 chýba " + (5 - publicTransportationNearby) + " kešiek s atribútom Public Transportation Nearby");
+            fullfilled = false;
+            html += "<p>🚌 chýba " + (5 - publicTransportationNearby) + " kešiek s atribútom Public Transportation Nearby</p>";
+        } else {
+            html += "<p>🚌 " + publicTransportationNearby + " s atribútom Public Transportation Nearby (5 potrebných)</p>";
         }
 
         if (strollerAccessible < 3) {
-            System.out.println("👶 chýba " + (3 - strollerAccessible) + " kešiek s atribútom Stroller Accessible");
+            fullfilled = false;
+            html += "<p>👶 chýba " + (3 - strollerAccessible) + " kešiek s atribútom Stroller Accessible</p>";
+        } else {
+            html += "<p>👶 " + strollerAccessible + " s atribútom Stroller Accessible (3 potrebné)</p>";
         }
 
         if (bicycles < 5) {
-            System.out.println("🚲 chýba " + (5 - bicycles) + " kešiek s atribútom Bicycles");
+            fullfilled = false;
+            html += "<p>🚲 chýba " + (5 - bicycles) + " kešiek s atribútom Bicycles</p>";
+        } else {
+            html += "<p>🚲 " + bicycles + " s atribútom Bicycles (5 potrebných)</p>";
         }
 
         if (foodNearby < 2) {
-            System.out.println("🍔 chýba " + (2 - foodNearby) + " kešiek s atribútom Food Nearby");
+            fullfilled = false;
+            html += "<p>🍔 chýba " + (2 - foodNearby) + " kešiek s atribútom Food Nearby</p>";
+        } else {
+            html += "<p>🍔 " + foodNearby + " s atribútom Food Nearby (2 potrebné)</p>";
         }
 
         if (fullfilled) {
-            System.out.println("Gratulujem, splnil si podmienky pre mestskú cestu!");
-            System.out.println("🚌 " + publicTransportationNearby + " s atribútom Public Transportation Nearby (5 potrebných)");
-            System.out.println("👶 " + strollerAccessible + " s atribútom Stroller Accessible (3 potrebné)");
-            System.out.println("🚲 " + bicycles + " s atribútom Bicycles (5 potrebných)");
-            System.out.println("🍔 " + foodNearby + " s atribútom Food Nearby (2 potrebné)");
+            html += "<p>🎉 Gratulujem, splnil si podmienky pre mestskú cestu!</p>";
+        } else {
+            html += "<p>😞 Nesplnil si podmienky pre mestskú cestu.</p>";
         }
+
+        Files.writeString(outputFile, """
+            <h2>Mestská Cesta</h2><p>%s</p>
+        """.formatted(html), StandardOpenOption.APPEND);
     }
 }

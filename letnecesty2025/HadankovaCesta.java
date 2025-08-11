@@ -1,6 +1,10 @@
 package letnecesty2025;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.List;
+import java.io.IOException;
 
 /**
 🧩 nájdi 5 mystery kešiek bez atribútu Challenge Cache
@@ -10,7 +14,7 @@ import java.util.List;
 */
 
 public class HadankovaCesta {
-    public static void run(List<Geocache> geocaches) {
+    public static void run(List<Geocache> geocaches, Path outputFile) throws IOException {
         long mysteryCaches = geocaches.stream()
             .filter(g -> g.type.equals(Types.UNKNOWN.getText()) && !g.hasAttribute(Attribute.challengecache))
             .count();
@@ -27,33 +31,45 @@ public class HadankovaCesta {
             .filter(g -> g.type.equals(Types.WHEREIGO.getText()) || g.type.equals(Types.LETTERBOX.getText()))
             .count();
 
-        Boolean fullfilled = mysteryCaches >= 5
-            && challengeCaches >= 3
-            && multiCaches >= 5
-            && whereigoOrLetterbox >= 2;
+        Boolean fullfilled = true;
+        String html = "";
 
         if (mysteryCaches < 5) {
-            System.out.println("🧩 chýba " + (5 - mysteryCaches) + " mystery kešiek bez atribútu Challenge Cache");
+            html += "<p>🧩 chýba " + (5 - mysteryCaches) + " mystery kešiek bez atribútu Challenge Cache</p>";
+            fullfilled = false;
+        } else {
+            html += "<p>🧩 " + mysteryCaches + " mystery kešiek bez atribútu Challenge Cache (5 potrebných)</p>";
         }
 
         if (challengeCaches < 3) {
-            System.out.println("🏅 chýba " + (3 - challengeCaches) + " challenge kešiek, ktoré spĺňaš");
+            html += "<p>🏅 chýba " + (3 - challengeCaches) + " challenge kešiek, ktoré spĺňaš</p>";
+            fullfilled = false;
+        } else {
+            html += "<p>🏅 " + challengeCaches + " challenge kešiek, ktoré spĺňaš (3 potrebné)</p>";
         }
 
         if (multiCaches < 5) {
-            System.out.println("🚶 chýba " + (5 - multiCaches) + " multi kešiek");
+            html += "<p>🚶 chýba " + (5 - multiCaches) + " multi kešiek</p>";
+            fullfilled = false;
+        } else {
+            html += "<p>🚶 " + multiCaches + " multi kešiek (5 potrebných)</p>";
         }
 
         if (whereigoOrLetterbox < 2) {
-            System.out.println("📫 chýba " + (2 - whereigoOrLetterbox) + " kešiek typu Whereigo alebo Letterbox");
+            html += "<p>📫 chýba " + (2 - whereigoOrLetterbox) + " kešiek typu WhereIGo alebo LetterBox</p>";
+            fullfilled = false;
+        } else {
+            html += "<p>📫 " + whereigoOrLetterbox + " kešiek typu WhereIGo alebo LetterBox (2 potrebné)</p>";
         }
 
         if (fullfilled) {
-            System.out.println("Gratulujem, splnil si podmienky pre hádankovú cestu!");
-            System.out.println("🧩 " + mysteryCaches + " mystery kešiek bez atribútu Challenge Cache (5 potrebných)");
-            System.out.println("🏅 " + challengeCaches + " challenge kešiek, ktoré spĺňaš (3 potrebné)");
-            System.out.println("🚶 " + multiCaches + " multi kešiek (5 potrebných)");
-            System.out.println("📫 " + whereigoOrLetterbox + " kešiek typu WhereIGo alebo LetterBox (2 potrebné)");
+            html += "<p>🎉 Gratulujem, splnil si podmienky pre hádankovú cestu!</p>";
+        } else {
+            html += "<p>😞 Nesplnil si podmienky pre hádankovú cestu.</p>";
         }
+
+        Files.writeString(outputFile, """
+            <h2>Hádanková Cesta</h2><p>%s</p>
+        """.formatted(html), StandardOpenOption.APPEND);
     }
 }

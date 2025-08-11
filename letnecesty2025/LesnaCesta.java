@@ -1,6 +1,10 @@
 package letnecesty2025;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.List;
+import java.io.IOException;
 
 /**
 🌎 nájdi 5 earth kešiek
@@ -10,7 +14,7 @@ import java.util.List;
 */
 
 public class LesnaCesta {
-    public static void run(List<Geocache> geocaches) {
+    public static void run(List<Geocache> geocaches, Path outputFile) throws IOException {
         long earthCaches = geocaches.stream()
             .filter(g -> g.type.equals(Types.EARTH.getText()))
             .count();
@@ -27,33 +31,45 @@ public class LesnaCesta {
             .filter(g -> g.hasAttribute(Attribute.hike_long))
             .count();
 
-        Boolean fullfilled = earthCaches >= 5
-            && recommendedForTourists >= 3
-            && scenicView >= 5
-            && longHike >= 2;
+        Boolean fullfilled = true;
+        String html = "";
 
         if (earthCaches < 5) {
-            System.out.println("🌎 chýba " + (5 - earthCaches) + " earth kešiek");
+            fullfilled = false;
+            html += "<p>🌎 chýba " + (5 - earthCaches) + " earth kešiek</p>";
+        } else {
+            html += "<p>🌎 " + earthCaches + " earth kešiek (5 potrebných)</p>";
         }
 
         if (recommendedForTourists < 3) {
-            System.out.println("🧳 chýba " + (3 - recommendedForTourists) + " kešiek s atribútom Recommended for Tourists");
+            fullfilled = false;
+            html += "<p>🧳 chýba " + (3 - recommendedForTourists) + " kešiek s atribútom Recommended for Tourists</p>";
+        } else {
+            html += "<p>🧳 " + recommendedForTourists + " s atribútom Recommended for Tourists (3 potrebné)</p>";
         }
 
         if (scenicView < 5) {
-            System.out.println("⛰ chýba " + (5 - scenicView) + " kešiek s atribútom Scenic view");
+            fullfilled = false;
+            html += "<p>⛰ chýba " + (5 - scenicView) + " kešiek s atribútom Scenic view</p>";
+        } else {
+            html += "<p>⛰ " + scenicView + " s atribútom Scenic view (5 potrebných)</p>";
         }
 
         if (longHike < 2) {
-            System.out.println("🥾 chýba " + (2 - longHike) + " kešiek s atribútom Long Hike >10km");
+            fullfilled = false;
+            html += "<p>🥾 chýba " + (2 - longHike) + " kešiek s atribútom Long Hike >10km</p>";
+        } else {
+            html += "<p>🥾 " + longHike + " s atribútom Long Hike >10km (2 potrebné)</p>";
         }
 
         if (fullfilled) {
-            System.out.println("Gratulujem, splnil si podmienky pre lesnú cestu!");
-            System.out.println("🌎 " + earthCaches + " earth kešiek (5 potrebných)");
-            System.out.println("🧳 " + recommendedForTourists + " s atribútom Recommended for Tourists (3 potrebné)");
-            System.out.println("⛰ " + scenicView + " s atribútom Scenic view (5 potrebných)");
-            System.out.println("🥾 " + longHike + " s atribútom Long Hike >10km (2 potrebné)");
+            html += "<p>🎉 Gratulujem, splnil si podmienky pre lesnú cestu!</p>";
+        } else {
+            html += "<p>😞 Nesplnil si podmienky pre lesnú cestu.</p>";
         }
+
+        Files.writeString(outputFile, """
+            <h2>Lesná Cesta</h2><p>%s</p>
+        """.formatted(html), StandardOpenOption.APPEND);
     }
 }

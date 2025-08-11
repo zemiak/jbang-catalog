@@ -2,31 +2,39 @@ package letnecesty2025;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.file.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.stream.Stream;
 import java.util.zip.ZipInputStream;
 
 public class Uncompress {
     public static Path getUncompressedFinds() {
-        var zipFiles = new ArrayList<Path>();
+        List<Path> zipFiles;
         try {
             Path currentPath = Paths.get(".");
             try (Stream<Path> paths = Files.walk(currentPath, 1)) {
-                paths.filter(path -> path.toString().endsWith(".zip"))
+                zipFiles = paths.filter(path -> path.toString().endsWith(".zip"))
                     .filter(path -> path.getFileName().toString().matches("\\d+\\.zip"))
-                    .forEach(path -> {
-                        zipFiles.add(path);
-                    });
+                    .toList();
             }
         } catch (IOException e) {
+            zipFiles = Collections.emptyList();
             System.err.println("Chyba pri citani suborov: " + e.getMessage());
             System.exit(50);
         }
 
         if (zipFiles.isEmpty()) {
-            System.err.println("Nenasiel som ziadny subor s My Finds Pocket Query.");
-            System.exit(51);
+            zipFiles = loadFromDownloadLocation();
+
+            if (zipFiles.isEmpty()) {
+                System.err.println("Nenasiel som ziadny subor s My Finds Pocket Query.");
+                System.exit(51);
+            }
         }
 
         if (zipFiles.size() > 1) {
@@ -71,5 +79,41 @@ public class Uncompress {
         }
 
         return newFile;
+    }
+
+    private static ArrayList<Path> loadFromDownloadLocation() {
+        var result = new ArrayList<Path>();
+
+        String os = System.getProperty("os.name", "").toLowerCase();
+        String home = System.getProperty("user.home", "");
+
+        Path downloadsDir;
+        if (os.contains("win")) {
+            String userProfile = System.getenv("USERPROFILE");
+            if (userProfile != null && !userProfile.isBlank()) {
+                downloadsDir = Paths.get(userProfile, "Downloads");
+            } else if (home != null && !home.isBlank()) {
+                downloadsDir = Paths.get(home, "Downloads");
+            } else {
+                downloadsDir = null;
+            }
+        } else {
+            downloadsDir = (home != null && !home.isBlank()) ? Paths.get(home, "Downloads") : null;
+        }
+
+        if (downloadsDir == null || !Files.exists(downloadsDir) || !Files.isDirectory(downloadsDir)) {
+            return result; // empty
+        }
+
+        try (Stream<Path> paths = Files.walk(downloadsDir, 1)) {
+            paths.filter(Files::isRegularFile)
+                .filter(p -> p.toString().endsWith(".zip"))
+                .filter(p -> p.getFileName().toString().matches("\\d+\\.zip"))
+                .forEach(result::add);
+        } catch (IOException e) {
+            System.err.println("Chyba pri citani priecinka Downloads: " + e.getMessage());
+        }
+
+        return result;
     }
 }
