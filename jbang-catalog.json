@@ -3,6 +3,9 @@
   "aliases": {
     "letnecesty2025": {
       "script-ref": "letnecesty2025/main.java"
+    },
+    "letnecesty2025_sharkix": {
+      "script-ref": "letnecesty2025_sharkix/main.java"
     }
   }
 }
