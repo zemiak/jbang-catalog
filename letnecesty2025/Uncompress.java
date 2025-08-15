@@ -14,6 +14,43 @@ import java.util.zip.ZipInputStream;
 
 public class Uncompress {
     public static Path getUncompressedFinds() {
+        Path uncompressedPath = Uncompress.getUncompressedGpx();
+        if (null != uncompressedPath) {
+            return uncompressedPath;
+        }
+
+        return getUncompressedFromZip();
+    }
+
+    private static Path getUncompressedGpx() {
+        List<Path> gpxFiles;
+        try {
+            Path currentPath = Paths.get(".");
+            try (Stream<Path> paths = Files.walk(currentPath, 1)) {
+                gpxFiles = paths.filter(path -> path.toString().endsWith(".gpx"))
+                    .filter(path -> path.getFileName().toString().matches("\\d+\\.gpx"))
+                    .toList();
+            }
+        } catch (IOException e) {
+            return null;
+        }
+
+        if (gpxFiles.isEmpty()) {
+            gpxFiles = loadFromDownloadLocation("gpx");
+
+            if (gpxFiles.isEmpty()) {
+                return null;
+            }
+        }
+
+        if (gpxFiles.size() > 1) {
+            return null;
+        }
+
+        return gpxFiles.get(0);
+    }
+
+    private static Path getUncompressedFromZip() {
         List<Path> zipFiles;
         try {
             Path currentPath = Paths.get(".");
@@ -29,7 +66,7 @@ public class Uncompress {
         }
 
         if (zipFiles.isEmpty()) {
-            zipFiles = loadFromDownloadLocation();
+            zipFiles = loadFromDownloadLocation("zip");
 
             if (zipFiles.isEmpty()) {
                 System.err.println("Nenasiel som ziadny subor s My Finds Pocket Query.");
@@ -81,7 +118,7 @@ public class Uncompress {
         return newFile;
     }
 
-    private static ArrayList<Path> loadFromDownloadLocation() {
+    private static ArrayList<Path> loadFromDownloadLocation(String extension) {
         var result = new ArrayList<Path>();
 
         String os = System.getProperty("os.name", "").toLowerCase();
@@ -107,8 +144,8 @@ public class Uncompress {
 
         try (Stream<Path> paths = Files.walk(downloadsDir, 1)) {
             paths.filter(Files::isRegularFile)
-                .filter(p -> p.toString().endsWith(".zip"))
-                .filter(p -> p.getFileName().toString().matches("\\d+\\.zip"))
+                .filter(p -> p.toString().endsWith("." + extension))
+                .filter(p -> p.getFileName().toString().matches("\\d+\\." + extension))
                 .forEach(result::add);
         } catch (IOException e) {
             System.err.println("Chyba pri citani priecinka Downloads: " + e.getMessage());

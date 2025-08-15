@@ -25,7 +25,7 @@ import java.util.List;
 class main {
     public static void main(String[] args) throws IOException {
         var reader = new letnecesty2025.Reader();
-        System.out.println("Checker Letne Cesty 2025 0.0.5");
+        System.out.println("Checker Letne Cesty 2025 0.0.6");
 
         Path uncompressedFinds = letnecesty2025.Uncompress.getUncompressedFinds();
 
