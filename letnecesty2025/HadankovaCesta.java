@@ -35,37 +35,37 @@ public class HadankovaCesta {
         String html = "";
 
         if (mysteryCaches < 5) {
-            html += "<p>🧩 chýba " + (5 - mysteryCaches) + " mystery kešiek bez atribútu Challenge Cache (5 potrebných)</p>";
+            html += "<p>🧩 chýba " + (5 - mysteryCaches) + " mystery kešiek bez atribútu Challenge Cache (5 potrebných) ❌</p>";
             fullfilled = false;
         } else {
-            html += "<p>🧩 " + mysteryCaches + " mystery kešiek bez atribútu Challenge Cache (5 potrebných)</p>";
+            html += "<p>🧩 " + mysteryCaches + " mystery kešiek bez atribútu Challenge Cache (5 potrebných) ✅</p>";
         }
 
         if (challengeCaches < 3) {
-            html += "<p>🏅 chýba " + (3 - challengeCaches) + " challenge kešiek, ktoré spĺňaš (3 potrebné)</p>";
+            html += "<p>🏅 chýba " + (3 - challengeCaches) + " challenge kešiek, ktoré spĺňaš (3 potrebné) ❌</p>";
             fullfilled = false;
         } else {
-            html += "<p>🏅 " + challengeCaches + " challenge kešiek, ktoré spĺňaš (3 potrebné)</p>";
+            html += "<p>🏅 " + challengeCaches + " challenge kešiek, ktoré spĺňaš (3 potrebné) ✅</p>";
         }
 
         if (multiCaches < 5) {
-            html += "<p>🚶 chýba " + (5 - multiCaches) + " multi kešiek (5 potrebných)</p>";
+            html += "<p>🚶 chýba " + (5 - multiCaches) + " multi kešiek (5 potrebných) ❌</p>";
             fullfilled = false;
         } else {
-            html += "<p>🚶 " + multiCaches + " multi kešiek (5 potrebných)</p>";
+            html += "<p>🚶 " + multiCaches + " multi kešiek (5 potrebných) ✅</p>";
         }
 
         if (whereigoOrLetterbox < 2) {
-            html += "<p>📫 chýba " + (2 - whereigoOrLetterbox) + " kešiek typu WhereIGo alebo LetterBox (2 potrebné)</p>";
+            html += "<p>📫 chýba " + (2 - whereigoOrLetterbox) + " kešiek typu WhereIGo alebo LetterBox (2 potrebné) ❌</p>";
             fullfilled = false;
         } else {
-            html += "<p>📫 " + whereigoOrLetterbox + " kešiek typu WhereIGo alebo LetterBox (2 potrebné)</p>";
+            html += "<p>📫 " + whereigoOrLetterbox + " kešiek typu WhereIGo alebo LetterBox (2 potrebné) ✅</p>";
         }
 
         if (fullfilled) {
-            html += "<p>🎉 Gratulujem, splnil si podmienky pre hádankovú cestu (ak si založil mystery kešku)!</p>";
+            html += "<p>🎉 Gratulujem, splnil si podmienky pre hádankovú cestu (ak si založil mystery kešku)! ✅</p>";
         } else {
-            html += "<p>😞 Nesplnil si podmienky pre hádankovú cestu.</p>";
+            html += "<p>😞 Nesplnil si podmienky pre hádankovú cestu. ❌</p>";
         }
 
         Files.writeString(outputFile, """

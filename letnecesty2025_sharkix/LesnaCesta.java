@@ -36,36 +36,36 @@ public class LesnaCesta {
 
         if (earthCaches < 5) {
             fullfilled = false;
-            html += "<p>🌎 chýba " + (5 - earthCaches) + " earth kešiek (5 potrebných)</p>";
+            html += "<p>🌎 chýba " + (5 - earthCaches) + " earth kešiek (5 potrebných) ❌</p>";
         } else {
-            html += "<p>🌎 " + earthCaches + " earth kešiek (5 potrebných)</p>";
+            html += "<p>🌎 " + earthCaches + " earth kešiek (5 potrebných) ✅</p>";
         }
 
         if (recommendedForTourists < 3) {
             fullfilled = false;
-            html += "<p>🧳 chýba " + (3 - recommendedForTourists) + " kešiek s atribútom Recommended for Tourists (3 potrebné)</p>";
+            html += "<p>🧳 chýba " + (3 - recommendedForTourists) + " kešiek s atribútom Recommended for Tourists (3 potrebné) ❌</p>";
         } else {
-            html += "<p>🧳 " + recommendedForTourists + " s atribútom Recommended for Tourists (3 potrebné)</p>";
+            html += "<p>🧳 " + recommendedForTourists + " s atribútom Recommended for Tourists (3 potrebné) ✅</p>";
         }
 
         if (scenicView < 5) {
             fullfilled = false;
-            html += "<p>⛰ chýba " + (5 - scenicView) + " kešiek s atribútom Scenic view (5 potrebných)</p>";
+            html += "<p>⛰ chýba " + (5 - scenicView) + " kešiek s atribútom Scenic view (5 potrebných ❌</p>";
         } else {
-            html += "<p>⛰ " + scenicView + " s atribútom Scenic view (5 potrebných)</p>";
+            html += "<p>⛰ " + scenicView + " s atribútom Scenic view (5 potrebných) ✅</p>";
         }
 
         if (longHike < 2) {
             fullfilled = false;
-            html += "<p>🥾 chýba " + (2 - longHike) + " kešiek s atribútom Long Hike >10km (2 potrebné)</p>";
+            html += "<p>🥾 chýba " + (2 - longHike) + " kešiek s atribútom Long Hike >10km (2 potrebné) ❌</p>";
         } else {
-            html += "<p>🥾 " + longHike + " s atribútom Long Hike >10km (2 potrebné)</p>";
+            html += "<p>🥾 " + longHike + " s atribútom Long Hike >10km (2 potrebné) ✅</p>";
         }
 
         if (fullfilled) {
-            html += "<p>🎉 Gratulujem, splnil si podmienky pre lesnú cestu (ak si založil fyzickú kešku)!</p>";
+            html += "<p>🎉 Gratulujem, splnil si podmienky pre lesnú cestu (ak si založil fyzickú kešku)! ✅</p>";
         } else {
-            html += "<p>😞 Nesplnil si podmienky pre lesnú cestu.</p>";
+            html += "<p>😞 Nesplnil si podmienky pre lesnú cestu. ❌</p>";
         }
 
         Files.writeString(outputFile, """
