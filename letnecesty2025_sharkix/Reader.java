@@ -65,6 +65,8 @@ public class Reader {
 
         this.fillGeostatsDataInfo(doc);
 
+        System.out.println("Read " + geocaches.size() + " caches from " + fileName);
+
         return geocaches;
     }
 
@@ -135,12 +137,6 @@ public class Reader {
         var log = new LogHandler(cacheElement, isProjectGC);
         this.cacherName = log.cacherName;
         cache.logDateTime = log.date;
-
-        LocalDate logDate = log.date.toLocalDate();
-        if (logDate.isBefore(START_DATE) || logDate.isAfter(END_DATE)) {
-            // skipping FI outside of the date range
-            return;
-        }
 
         cache.logText = log.text;
 
